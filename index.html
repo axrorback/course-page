@@ -1,0 +1,4982 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>DevOps & Django Backend — Akhrorjon Ibrokhimjonov</title>
+
+    <meta
+        name="description"
+        content="Django Backend va DevOps bo‘yicha amaliy kurs. Linux, server administration, app deployment, Docker, Kubernetes, Nginx, Caddy, Kafka, Redis, RabbitMQ, Celery va CI/CD."
+    >
+
+    <meta name="author" content="Akhrorjon Ibrokhimjonov">
+
+    <link
+        rel="icon"
+        href="https://media.axror.tech/media/axror/profile_Oorl551.jpg"
+    >
+
+    <!-- Bootstrap 5 -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- JetBrains Mono -->
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <style>
+
+        /* =========================================================
+           VARIABLES
+        ========================================================= */
+
+        :root {
+
+            --bg: #f5f7f9;
+            --card: #ffffff;
+
+            --text: #24292f;
+            --muted: #656d76;
+
+            --green: #1a7f37;
+            --green-light: #eaf6ed;
+
+            --blue: #0969da;
+
+            --border: #d0d7de;
+
+            --terminal: #eef1f4;
+
+            --dark: #111827;
+            --dark-2: #161b22;
+
+            --danger: #cf222e;
+
+        }
+
+
+        /* =========================================================
+           GLOBAL
+        ========================================================= */
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        html {
+
+            scroll-behavior: smooth;
+
+            scroll-padding-top: 82px;
+
+        }
+
+
+        body {
+
+            margin: 0;
+
+            background: var(--bg);
+
+            color: var(--text);
+
+            font-family:
+                "JetBrains Mono",
+                monospace;
+
+            line-height: 1.65;
+
+            -webkit-font-smoothing: antialiased;
+
+        }
+
+
+        a {
+            color: inherit;
+        }
+
+
+        .container {
+            max-width: 1120px;
+        }
+
+
+        .section {
+
+            padding:
+                95px
+                0;
+
+        }
+
+
+        .section-light {
+
+            background: #fff;
+
+            border-top:
+                1px solid
+                var(--border);
+
+            border-bottom:
+                1px solid
+                var(--border);
+
+        }
+
+
+        .section-label {
+
+            color:
+                var(--green);
+
+            font-size:
+                10px;
+
+            font-weight:
+                600;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                1.7px;
+
+        }
+
+
+        .section-title {
+
+            margin:
+                12px
+                0
+                40px;
+
+            font-size:
+                clamp(30px, 4vw, 47px);
+
+            line-height:
+                1.17;
+
+            letter-spacing:
+                -2px;
+
+        }
+
+
+        .section-title span {
+
+            color:
+                var(--green);
+
+        }
+
+
+        /* =========================================================
+           NAVBAR
+        ========================================================= */
+
+        .custom-navbar {
+
+            background:
+                rgba(255,255,255,.94);
+
+            backdrop-filter:
+                blur(14px);
+
+            border-bottom:
+                1px solid
+                var(--border);
+
+        }
+
+
+        .navbar-brand {
+
+            color:
+                var(--green)
+                !important;
+
+            font-size:
+                14px;
+
+            font-weight:
+                700;
+
+        }
+
+
+        .navbar-brand .slash {
+            color:
+                var(--blue);
+        }
+
+
+        .navbar-nav .nav-link {
+
+            color:
+                var(--text);
+
+            font-size:
+                10px;
+
+            padding:
+                9px
+                10px
+                !important;
+
+            border-radius:
+                6px;
+
+        }
+
+
+        .navbar-nav .nav-link:hover {
+
+            color:
+                var(--green);
+
+            background:
+                rgba(26,127,55,.06);
+
+        }
+
+
+        .navbar-toggler {
+
+            border:
+                0;
+
+            box-shadow:
+                none !important;
+
+        }
+
+
+        .nav-register {
+
+            border:
+                1px solid
+                var(--border);
+
+        }
+
+
+        .nav-register:hover {
+
+            border-color:
+                var(--green)
+                !important;
+
+        }
+
+
+        /* =========================================================
+           HERO
+        ========================================================= */
+
+        .hero {
+
+            padding:
+                120px
+                0
+                70px;
+
+        }
+
+
+        .terminal-window {
+
+            overflow:
+                hidden;
+
+            background:
+                var(--card);
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius:
+                12px;
+
+            box-shadow:
+                0
+                22px
+                60px
+                rgba(0,0,0,.055);
+
+        }
+
+
+        .terminal-header {
+
+            height:
+                45px;
+
+            padding:
+                0
+                15px;
+
+            background:
+                var(--terminal);
+
+            border-bottom:
+                1px solid
+                var(--border);
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                space-between;
+
+        }
+
+
+        .terminal-dots {
+
+            display:
+                flex;
+
+            gap:
+                6px;
+
+        }
+
+
+        .terminal-dot {
+
+            width:
+                10px;
+
+            height:
+                10px;
+
+            border-radius:
+                50%;
+
+        }
+
+
+        .dot-red {
+            background:
+                #ff5f56;
+        }
+
+
+        .dot-yellow {
+            background:
+                #ffbd2e;
+        }
+
+
+        .dot-green {
+            background:
+                #27c93f;
+        }
+
+
+        .terminal-path {
+
+            color:
+                var(--muted);
+
+            font-size:
+                10px;
+
+        }
+
+
+        .terminal-status {
+
+            color:
+                var(--green);
+
+            font-size:
+                9px;
+
+        }
+
+
+        .terminal-body {
+
+            padding:
+                65px
+                clamp(22px, 8vw, 85px);
+
+        }
+
+
+        .eyebrow {
+
+            color:
+                var(--green);
+
+            font-size:
+                10px;
+
+            font-weight:
+                600;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                1.5px;
+
+        }
+
+
+        .hero h1 {
+
+            margin:
+                15px
+                0
+                25px;
+
+            max-width:
+                900px;
+
+            font-size:
+                clamp(40px, 6vw, 70px);
+
+            line-height:
+                1.08;
+
+            letter-spacing:
+                -3px;
+
+        }
+
+
+        .hero h1 span {
+
+            color:
+                var(--green);
+
+        }
+
+
+        .hero-description {
+
+            max-width:
+                820px;
+
+            color:
+                var(--muted);
+
+            font-size:
+                13px;
+
+        }
+
+
+        .command-box {
+
+            display:
+                inline-block;
+
+            margin:
+                25px
+                0;
+
+            padding:
+                11px
+                15px;
+
+            background:
+                #f6f8fa;
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius:
+                7px;
+
+            font-size:
+                10px;
+
+        }
+
+
+        .command-box .prompt {
+
+            color:
+                var(--green);
+
+            font-weight:
+                700;
+
+        }
+
+
+        .btn-terminal {
+
+            border-radius:
+                7px;
+
+            padding:
+                11px
+                16px;
+
+            font-size:
+                10px;
+
+            font-weight:
+                600;
+
+        }
+
+
+        .btn-terminal-primary {
+
+            color:
+                #fff;
+
+            background:
+                var(--green);
+
+            border-color:
+                var(--green);
+
+        }
+
+
+        .btn-terminal-primary:hover {
+
+            color:
+                #fff;
+
+            background:
+                #176c30;
+
+            border-color:
+                #176c30;
+
+        }
+
+
+        .hero-stats {
+
+            margin-top:
+                45px;
+
+            padding-top:
+                25px;
+
+            border-top:
+                1px solid
+                var(--border);
+
+        }
+
+
+        .hero-stat strong {
+
+            display:
+                block;
+
+            font-size:
+                15px;
+
+        }
+
+
+        .hero-stat span {
+
+            display:
+                block;
+
+            color:
+                var(--muted);
+
+            font-size:
+                8px;
+
+        }
+
+
+        /* =========================================================
+           POSITIONING / WARNING
+        ========================================================= */
+
+        .serious-banner {
+
+            margin-top:
+                30px;
+
+            padding:
+                18px
+                20px;
+
+            background:
+                #fff;
+
+            border:
+                1px solid
+                var(--border);
+
+            border-left:
+                3px solid
+                var(--green);
+
+            border-radius:
+                7px;
+
+        }
+
+
+        .serious-banner strong {
+
+            display:
+                block;
+
+            margin-bottom:
+                5px;
+
+            font-size:
+                12px;
+
+        }
+
+
+        .serious-banner p {
+
+            margin:
+                0;
+
+            color:
+                var(--muted);
+
+            font-size:
+                9px;
+
+        }
+
+
+        /* =========================================================
+           COURSE INTRO
+        ========================================================= */
+
+        .course-intro {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                1fr
+                1.25fr;
+
+            gap:
+                70px;
+
+        }
+
+
+        .course-intro h2 {
+
+            font-size:
+                clamp(30px, 4vw, 46px);
+
+            line-height:
+                1.2;
+
+            letter-spacing:
+                -2px;
+
+        }
+
+
+        .course-intro h2 span {
+
+            color:
+                var(--green);
+
+        }
+
+
+        .course-text {
+
+            color:
+                var(--muted);
+
+            font-size:
+                11px;
+
+        }
+
+
+        .course-text p {
+
+            margin-bottom:
+                18px;
+
+        }
+
+
+        .course-text strong {
+
+            color:
+                var(--text);
+
+        }
+
+
+        /* =========================================================
+           LEARNING PRINCIPLES
+        ========================================================= */
+
+        .principle-card {
+
+            height:
+                100%;
+
+            padding:
+                25px;
+
+            background:
+                #fff;
+
+            border:
+                1px solid
+                var(--border);
+
+            transition:
+                .2s;
+
+        }
+
+
+        .principle-card:hover {
+
+            transform:
+                translateY(-3px);
+
+            border-color:
+                var(--green);
+
+        }
+
+
+        .principle-card i {
+
+            color:
+                var(--green);
+
+            font-size:
+                23px;
+
+        }
+
+
+        .principle-card h5 {
+
+            margin-top:
+                17px;
+
+            font-size:
+                14px;
+
+        }
+
+
+        .principle-card p {
+
+            margin:
+                0;
+
+            color:
+                var(--muted);
+
+            font-size:
+                9px;
+
+        }
+
+
+        /* =========================================================
+           ROADMAP
+        ========================================================= */
+
+        .roadmap {
+
+            position:
+                relative;
+
+        }
+
+
+        .roadmap::before {
+
+            content:
+                "";
+
+            position:
+                absolute;
+
+            top:
+                0;
+
+            bottom:
+                0;
+
+            left:
+                23px;
+
+            width:
+                1px;
+
+            background:
+                var(--border);
+
+        }
+
+
+        .roadmap-item {
+
+            position:
+                relative;
+
+            display:
+                grid;
+
+            grid-template-columns:
+                47px
+                1fr;
+
+            gap:
+                25px;
+
+            margin-bottom:
+                28px;
+
+        }
+
+
+        .roadmap-number {
+
+            position:
+                relative;
+
+            z-index:
+                2;
+
+            width:
+                47px;
+
+            height:
+                47px;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            border-radius:
+                50%;
+
+            background:
+                #fff;
+
+            border:
+                1px solid
+                var(--border);
+
+            color:
+                var(--green);
+
+            font-size:
+                10px;
+
+            font-weight:
+                700;
+
+        }
+
+
+        .roadmap-content {
+
+            padding:
+                23px;
+
+            background:
+                #fff;
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius:
+                8px;
+
+        }
+
+
+        .roadmap-content h4 {
+
+            margin:
+                0
+                0
+                8px;
+
+            font-size:
+                15px;
+
+        }
+
+
+        .roadmap-content p {
+
+            margin:
+                0;
+
+            color:
+                var(--muted);
+
+            font-size:
+                10px;
+
+        }
+
+
+        .roadmap-tags {
+
+            display:
+                flex;
+
+            flex-wrap:
+                wrap;
+
+            gap:
+                5px;
+
+            margin-top:
+                15px;
+
+        }
+
+
+        .roadmap-tag {
+
+            padding:
+                4px
+                7px;
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius:
+                4px;
+
+            color:
+                var(--muted);
+
+            font-size:
+                8px;
+
+        }
+
+
+        /* =========================================================
+           LINUX / SERVER / DEPLOYMENT
+        ========================================================= */
+
+        .infra-card {
+
+            height:
+                100%;
+
+            padding:
+                28px;
+
+            background:
+                var(--dark);
+
+            color:
+                #fff;
+
+            border-radius:
+                9px;
+
+            border:
+                1px solid
+                #272d36;
+
+        }
+
+
+        .infra-card i {
+
+            color:
+                #72d48a;
+
+            font-size:
+                25px;
+
+        }
+
+
+        .infra-card .infra-number {
+
+            display:
+                block;
+
+            margin-top:
+                22px;
+
+            color:
+                #72d48a;
+
+            font-size:
+                8px;
+
+            letter-spacing:
+                1px;
+
+        }
+
+
+        .infra-card h4 {
+
+            margin:
+                8px
+                0;
+
+            font-size:
+                15px;
+
+        }
+
+
+        .infra-card p {
+
+            margin:
+                0;
+
+            color:
+                #aeb7c2;
+
+            font-size:
+                9px;
+
+        }
+
+
+        .terminal-command-list {
+
+            margin-top:
+                18px;
+
+            padding:
+                12px;
+
+            background:
+                #0b0f14;
+
+            border:
+                1px solid
+                #252c35;
+
+            border-radius:
+                6px;
+
+            color:
+                #aeb7c2;
+
+            font-size:
+                8px;
+
+            line-height:
+                1.9;
+
+        }
+
+
+        .terminal-command-list span {
+
+            color:
+                #72d48a;
+
+        }
+
+
+        /* =========================================================
+           TECHNOLOGY STACK
+        ========================================================= */
+
+        .stack-category {
+
+            margin-bottom:
+                45px;
+
+        }
+
+
+        .stack-category-title {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            gap:
+                10px;
+
+            margin-bottom:
+                16px;
+
+            color:
+                var(--muted);
+
+            font-size:
+                10px;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                1px;
+
+        }
+
+
+        .stack-category-title i {
+
+            color:
+                var(--green);
+
+        }
+
+
+        .technology-card {
+
+            height:
+                100%;
+
+            padding:
+                22px
+                17px;
+
+            background:
+                #fff;
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius:
+                8px;
+
+            transition:
+                .2s;
+
+        }
+
+
+        .technology-card:hover {
+
+            transform:
+                translateY(-4px);
+
+            border-color:
+                var(--green);
+
+            box-shadow:
+                0
+                10px
+                25px
+                rgba(0,0,0,.04);
+
+        }
+
+
+        .technology-icon {
+
+            width:
+                48px;
+
+            height:
+                48px;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            margin-bottom:
+                15px;
+
+            border-radius:
+                9px;
+
+            background:
+                var(--green-light);
+
+            color:
+                var(--green);
+
+            font-size:
+                22px;
+
+        }
+
+
+        .technology-card h5 {
+
+            margin:
+                0
+                0
+                6px;
+
+            font-size:
+                12px;
+
+        }
+
+
+        .technology-card p {
+
+            margin:
+                0;
+
+            color:
+                var(--muted);
+
+            font-size:
+                8px;
+
+        }
+
+
+        .architecture-line {
+
+            display:
+                flex;
+
+            flex-wrap:
+                wrap;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            gap:
+                9px;
+
+            margin-top:
+                35px;
+
+            padding:
+                23px;
+
+            background:
+                #f6f8fa;
+
+            border:
+                1px dashed
+                var(--border);
+
+            border-radius:
+                8px;
+
+            font-size:
+                8px;
+
+        }
+
+
+        .architecture-node {
+
+            padding:
+                6px
+                9px;
+
+            background:
+                #fff;
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius:
+                5px;
+
+        }
+
+
+        .architecture-arrow {
+
+            color:
+                var(--green);
+
+        }
+
+
+        /* =========================================================
+           EXPERIENCE
+        ========================================================= */
+
+        .experience-card {
+
+            height:
+                100%;
+
+            padding:
+                30px;
+
+            background:
+                #fff;
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius:
+                9px;
+
+        }
+
+
+        .company-icon {
+
+            width:
+                48px;
+
+            height:
+                48px;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            margin-bottom:
+                20px;
+
+            background:
+                var(--green-light);
+
+            color:
+                var(--green);
+
+            border-radius:
+                9px;
+
+            font-size:
+                21px;
+
+        }
+
+
+        .experience-label {
+
+            color:
+                var(--green);
+
+            font-size:
+                8px;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                1px;
+
+        }
+
+
+        .experience-card h3 {
+
+            margin:
+                8px
+                0
+                13px;
+
+            font-size:
+                19px;
+
+        }
+
+
+        .experience-card p {
+
+            color:
+                var(--muted);
+
+            font-size:
+                10px;
+
+        }
+
+
+        .experience-list {
+
+            margin-top:
+                20px;
+
+            padding-left:
+                17px;
+
+        }
+
+
+        .experience-list li {
+
+            margin-bottom:
+                8px;
+
+            color:
+                var(--muted);
+
+            font-size:
+                9px;
+
+        }
+
+
+        /* =========================================================
+           INSTRUCTOR
+        ========================================================= */
+
+        .instructor {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                165px
+                1fr;
+
+            gap:
+                40px;
+
+            align-items:
+                center;
+
+        }
+
+
+        .instructor-photo img {
+
+            width:
+                165px;
+
+            height:
+                165px;
+
+            object-fit:
+                cover;
+
+            border-radius:
+                10px;
+
+            border:
+                1px solid
+                var(--border);
+
+        }
+
+
+        .instructor h2 {
+
+            margin:
+                8px
+                0
+                15px;
+
+            font-size:
+                29px;
+
+            letter-spacing:
+                -1px;
+
+        }
+
+
+        .instructor-description {
+
+            color:
+                var(--muted);
+
+            font-size:
+                10px;
+
+        }
+
+
+        .instructor-description strong {
+
+            color:
+                var(--text);
+
+        }
+
+
+        .experience-tags {
+
+            display:
+                flex;
+
+            flex-wrap:
+                wrap;
+
+            gap:
+                6px;
+
+            margin-top:
+                20px;
+
+        }
+
+
+        .experience-tag {
+
+            padding:
+                6px
+                8px;
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius:
+                5px;
+
+            font-size:
+                8px;
+
+        }
+
+
+        /* =========================================================
+           PROJECTS
+        ========================================================= */
+
+        .project-card {
+
+            height:
+                100%;
+
+            padding:
+                28px;
+
+            background:
+                var(--bg);
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius:
+                8px;
+
+        }
+
+
+        .project-icon {
+
+            color:
+                var(--green);
+
+            font-size:
+                25px;
+
+        }
+
+
+        .project-number {
+
+            display:
+                block;
+
+            margin-top:
+                22px;
+
+            color:
+                var(--green);
+
+            font-size:
+                8px;
+
+            letter-spacing:
+                1px;
+
+        }
+
+
+        .project-card h4 {
+
+            margin:
+                7px
+                0;
+
+            font-size:
+                15px;
+
+        }
+
+
+        .project-card p {
+
+            margin:
+                0;
+
+            color:
+                var(--muted);
+
+            font-size:
+                9px;
+
+        }
+
+
+        /* =========================================================
+           FAQ
+        ========================================================= */
+
+        .faq {
+
+            max-width:
+                900px;
+
+        }
+
+
+        .faq details {
+
+            border-top:
+                1px solid
+                var(--border);
+
+        }
+
+
+        .faq details:last-child {
+
+            border-bottom:
+                1px solid
+                var(--border);
+
+        }
+
+
+        .faq summary {
+
+            display:
+                flex;
+
+            justify-content:
+                space-between;
+
+            padding:
+                20px
+                0;
+
+            cursor:
+                pointer;
+
+            list-style:
+                none;
+
+            font-size:
+                10px;
+
+            font-weight:
+                600;
+
+        }
+
+
+        .faq summary::-webkit-details-marker {
+            display: none;
+        }
+
+
+        .faq summary::after {
+
+            content:
+                "+";
+
+            color:
+                var(--green);
+
+            font-size:
+                17px;
+
+        }
+
+
+        .faq details[open] summary::after {
+
+            content:
+                "−";
+
+        }
+
+
+        .faq details p {
+
+            margin:
+                0;
+
+            padding:
+                0
+                30px
+                20px
+                0;
+
+            color:
+                var(--muted);
+
+            font-size:
+                9px;
+
+        }
+
+
+        /* =========================================================
+           CTA
+        ========================================================= */
+
+        .cta {
+
+            padding:
+                75px
+                0;
+
+        }
+
+
+        .cta-box {
+
+            position:
+                relative;
+
+            overflow:
+                hidden;
+
+            padding:
+                60px
+                clamp(23px,7vw,80px);
+
+            background:
+                var(--dark);
+
+            color:
+                #fff;
+
+            border-radius:
+                12px;
+
+        }
+
+
+        .cta-box::after {
+
+            content:
+                "</>";
+
+            position:
+                absolute;
+
+            right:
+                7%;
+
+            top:
+                15%;
+
+            color:
+                rgba(255,255,255,.025);
+
+            font-size:
+                145px;
+
+            font-weight:
+                700;
+
+        }
+
+
+        .cta-box .section-label {
+
+            color:
+                #72d48a;
+
+        }
+
+
+        .cta-box h2 {
+
+            margin:
+                14px
+                0;
+
+            font-size:
+                clamp(32px,5vw,55px);
+
+            line-height:
+                1.15;
+
+            letter-spacing:
+                -2px;
+
+        }
+
+
+        .cta-box h2 span {
+
+            color:
+                #72d48a;
+
+        }
+
+
+        .cta-box p {
+
+            max-width:
+                720px;
+
+            color:
+                #aeb7c2;
+
+            font-size:
+                10px;
+
+        }
+
+
+        .registration-status {
+
+            margin-top:
+                22px;
+
+            color:
+                #8f9aa7;
+
+            font-size:
+                8px;
+
+        }
+
+
+        .registration-status .ok {
+
+            color:
+                #72d48a;
+
+        }
+
+
+        /* =========================================================
+           FOOTER
+        ========================================================= */
+
+        footer {
+
+            background:
+                #fff;
+
+            border-top:
+                1px solid
+                var(--border);
+
+        }
+
+
+        .footer-inner {
+
+            min-height:
+                85px;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                space-between;
+
+            gap:
+                20px;
+
+            color:
+                var(--muted);
+
+            font-size:
+                8px;
+
+        }
+
+
+        .online {
+
+            color:
+                var(--green);
+
+        }
+
+
+        .social-links {
+
+            display:
+                flex;
+
+            gap:
+                14px;
+
+            font-size:
+                15px;
+
+        }
+
+
+        .social-links a {
+
+            color:
+                var(--muted);
+
+            text-decoration:
+                none;
+
+        }
+
+
+        .social-links a:hover {
+
+            color:
+                var(--green);
+
+        }
+
+
+        /* =========================================================
+           RESPONSIVE
+        ========================================================= */
+
+        @media (max-width: 991px) {
+
+            .course-intro {
+
+                grid-template-columns:
+                    1fr;
+
+                gap:
+                    25px;
+
+            }
+
+
+            .instructor {
+
+                grid-template-columns:
+                    120px
+                    1fr;
+
+            }
+
+
+            .instructor-photo img {
+
+                width:
+                    120px;
+
+                height:
+                    120px;
+
+            }
+
+        }
+
+
+        @media (max-width: 767px) {
+
+            .section {
+
+                padding:
+                    70px
+                    0;
+
+            }
+
+
+            .hero {
+
+                padding:
+                    100px
+                    0
+                    45px;
+
+            }
+
+
+            .terminal-body {
+
+                padding:
+                    45px
+                    20px;
+
+            }
+
+
+            .terminal-path {
+
+                display:
+                    none;
+
+            }
+
+
+            .hero h1 {
+
+                font-size:
+                    clamp(37px, 11vw, 54px);
+
+                letter-spacing:
+                    -2px;
+
+            }
+
+
+            .hero-description {
+
+                font-size:
+                    10px;
+
+            }
+
+
+            .roadmap::before {
+
+                left:
+                    20px;
+
+            }
+
+
+            .roadmap-item {
+
+                grid-template-columns:
+                    40px
+                    1fr;
+
+                gap:
+                    15px;
+
+            }
+
+
+            .roadmap-number {
+
+                width:
+                    40px;
+
+                height:
+                    40px;
+
+                font-size:
+                    9px;
+
+            }
+
+
+            .roadmap-content {
+
+                padding:
+                    18px;
+
+            }
+
+
+            .instructor {
+
+                grid-template-columns:
+                    1fr;
+
+                gap:
+                    20px;
+
+            }
+
+
+            .instructor-photo img {
+
+                width:
+                    110px;
+
+                height:
+                    110px;
+
+            }
+
+
+            .footer-inner {
+
+                flex-direction:
+                    column;
+
+                justify-content:
+                    center;
+
+                padding:
+                    22px
+                    0;
+
+                text-align:
+                    center;
+
+            }
+
+        }
+
+
+        @media (max-width: 575px) {
+
+            .container {
+
+                width:
+                    calc(100% - 24px);
+
+            }
+
+
+            .hero h1 {
+
+                font-size:
+                    38px;
+
+            }
+
+
+            .command-box {
+
+                width:
+                    100%;
+
+                overflow-x:
+                    auto;
+
+                white-space:
+                    nowrap;
+
+            }
+
+
+            .hero .btn-terminal {
+
+                width:
+                    100%;
+
+                justify-content:
+                    center;
+
+            }
+
+
+            .hero-stat strong {
+
+                font-size:
+                    10px;
+
+            }
+
+
+            .hero-stat span {
+
+                font-size:
+                    6px;
+
+            }
+
+
+            .architecture-line {
+
+                justify-content:
+                    flex-start;
+
+                flex-wrap:
+                    nowrap;
+
+                overflow-x:
+                    auto;
+
+            }
+
+
+            .architecture-node {
+
+                flex:
+                    0 0 auto;
+
+            }
+
+
+            .cta-box {
+
+                padding:
+                    45px
+                    20px;
+
+            }
+
+
+            .cta-box h2 {
+
+                font-size:
+                    33px;
+
+            }
+
+
+            .cta-box .btn-terminal {
+
+                width:
+                    100%;
+
+                justify-content:
+                    center;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     NAVBAR
+========================================================= -->
+
+<nav class="navbar navbar-expand-lg navbar-light fixed-top custom-navbar">
+
+    <div class="container">
+
+        <a
+            class="navbar-brand"
+            href="#"
+        >
+            <span class="slash">~/</span>devops-course
+        </a>
+
+
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#mainNavigation"
+            aria-label="Menu"
+        >
+
+            <i class="bi bi-list fs-4"></i>
+
+        </button>
+
+
+        <div
+            class="collapse navbar-collapse"
+            id="mainNavigation"
+        >
+
+            <ul class="navbar-nav ms-auto align-items-lg-center">
+
+                <li class="nav-item">
+                    <a
+                        class="nav-link"
+                        href="#course"
+                    >
+                        kurs
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a
+                        class="nav-link"
+                        href="#roadmap"
+                    >
+                        roadmap
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a
+                        class="nav-link"
+                        href="#linux"
+                    >
+                        linux
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a
+                        class="nav-link"
+                        href="#stack"
+                    >
+                        stack
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a
+                        class="nav-link"
+                        href="#experience"
+                    >
+                        tajriba
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a
+                        class="nav-link"
+                        href="#instructor"
+                    >
+                        ustoz
+                    </a>
+                </li>
+
+                <li class="nav-item ms-lg-2">
+
+                    <a
+                        href="https://axror.tech/register-cource"
+                        class="nav-link nav-register"
+                    >
+
+                        register
+
+                        <i class="bi bi-arrow-up-right"></i>
+
+                    </a>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<main>
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<section class="hero">
+
+    <div class="container">
+
+        <div class="terminal-window">
+
+            <div class="terminal-header">
+
+                <div class="terminal-dots">
+
+                    <span class="terminal-dot dot-red"></span>
+                    <span class="terminal-dot dot-yellow"></span>
+                    <span class="terminal-dot dot-green"></span>
+
+                </div>
+
+
+                <div class="terminal-path">
+
+                    <i class="bi bi-terminal"></i>
+
+                    ~/axrorback/devops-course
+
+                </div>
+
+
+                <div class="terminal-status">
+
+                    ● registration_open
+
+                </div>
+
+            </div>
+
+
+            <div class="terminal-body">
+
+                <div class="eyebrow">
+
+                    axrorback / backend + devops engineering
+
+                </div>
+
+
+                <h1>
+
+                    Kod yozishdan
+
+                    <br>
+
+                    <span>Production'ga.</span>
+
+                </h1>
+
+
+                <p class="hero-description">
+
+                    Django Backend, Linux Terminal, Linux Server
+                    Administration, Application Deployment,
+                    Docker, Kubernetes, Nginx, Caddy, Redis,
+                    RabbitMQ, Celery, Apache Kafka va CI/CD.
+
+                    Bularni alohida-alohida emas, bitta real
+                    engineering workflow sifatida o‘rganing.
+
+                </p>
+
+
+                <div class="command-box">
+
+                    <span class="prompt">$</span>
+
+                    ./start-course.sh
+                    --mode=engineering
+
+                </div>
+
+
+                <div class="d-flex flex-wrap gap-2">
+
+                    <a
+                        href="https://axror.tech/register-cource"
+                        class="btn btn-terminal btn-terminal-primary"
+                    >
+
+                        Kursga ro‘yxatdan o‘tish
+
+                        <i class="bi bi-arrow-right"></i>
+
+                    </a>
+
+
+                    <a
+                        href="#roadmap"
+                        class="btn btn-outline-secondary btn-terminal"
+                    >
+
+                        Roadmap
+
+                        <i class="bi bi-diagram-3"></i>
+
+                    </a>
+
+                </div>
+
+
+                <div class="row g-3">
+
+                    <div class="col-6 col-md-3">
+
+                        <div class="hero-stat">
+
+                            <strong>01 oy</strong>
+
+                            <span>
+                                intensiv amaliy kurs
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-6 col-md-3">
+
+                        <div class="hero-stat">
+
+                            <strong>90 min</strong>
+
+                            <span>
+                                kunlik amaliy dars
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-6 col-md-3">
+
+                        <div class="hero-stat">
+
+                            <strong>Linux → K8s</strong>
+
+                            <span>
+                                infrastructure
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-6 col-md-3">
+
+                        <div class="hero-stat">
+
+                            <strong>Kafka</strong>
+
+                            <span>
+                                event-driven
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="serious-banner">
+
+                    <strong>
+                        Bu kurs vaqt o‘tkazish uchun emas.
+                    </strong>
+
+                    <p>
+
+                        Bu yerda maqsad — yana bir nechta
+                        tutorial ko‘rib chiqish emas.
+                        Maqsad — backend application'ni
+                        yozish, serverni boshqarish,
+                        deploy qilish va production
+                        architecture'ni tushunish.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     COURSE INTRO
+========================================================= -->
+
+<section
+    id="course"
+    class="section"
+>
+
+    <div class="container">
+
+        <div class="section-label">
+            $ cat course.md
+        </div>
+
+
+        <div class="course-intro mt-3">
+
+            <div>
+
+                <h2>
+
+                    Bu oddiy
+
+                    <br>
+
+                    <span>Django kursi emas.</span>
+
+                </h2>
+
+            </div>
+
+
+            <div class="course-text">
+
+                <p>
+
+                    Backend developer faqat endpoint yozib
+                    qo‘yishi bilan ish tugamaydi.
+
+                    Application qayerda ishlaydi?
+                    Database qayerda?
+                    Reverse proxy qanday ishlaydi?
+                    Background taskni kim bajaradi?
+                    Containerlar qanday boshqariladi?
+                    Servislar bir-biri bilan qanday gaplashadi?
+
+                </p>
+
+
+                <p>
+
+                    Shu savollar kursning asosiy nuqtasi.
+
+                    Siz Django'da application yaratishdan
+                    boshlaysiz va asta-sekin Linux server,
+                    deployment, containerization,
+                    orchestration va distributed systems
+                    tomon harakat qilasiz.
+
+                </p>
+
+
+                <p>
+
+                    Yakunda texnologiyalarni yodlab qolish
+                    emas, <strong>ularning architecture ichidagi
+                    rolini tushunish</strong> muhim bo‘ladi.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     PRINCIPLES
+========================================================= -->
+
+<section
+    class="section section-light"
+>
+
+    <div class="container">
+
+        <div class="section-label">
+            $ cat learning-principles.txt
+        </div>
+
+        <h2 class="section-title">
+            Bu kursning <span>yondashuvi</span>
+        </h2>
+
+
+        <div class="row g-3">
+
+
+            <div class="col-12 col-md-6 col-lg-3">
+
+                <div class="principle-card">
+
+                    <i class="bi bi-terminal"></i>
+
+                    <h5>
+                        Terminal First
+                    </h5>
+
+                    <p>
+
+                        Linux command line'dan qo‘rqmaslik.
+                        Server bilan terminal orqali ishlashni
+                        amalda o‘rganish.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-12 col-md-6 col-lg-3">
+
+                <div class="principle-card">
+
+                    <i class="bi bi-code-slash"></i>
+
+                    <h5>
+                        Code First
+                    </h5>
+
+                    <p>
+
+                        Har bir backend mavzusi real kod,
+                        API yoki application orqali
+                        mustahkamlanadi.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-12 col-md-6 col-lg-3">
+
+                <div class="principle-card">
+
+                    <i class="bi bi-server"></i>
+
+                    <h5>
+                        Production Mindset
+                    </h5>
+
+                    <p>
+
+                        "Localhost'da ishladi" bilan ish
+                        tugamaydi. Application'ni production
+                        muhitiga olib chiqishni tushunamiz.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-12 col-md-6 col-lg-3">
+
+                <div class="principle-card">
+
+                    <i class="bi bi-diagram-3"></i>
+
+                    <h5>
+                        Architecture
+                    </h5>
+
+                    <p>
+
+                        Har bir texnologiyaning alohida
+                        feature emas, architecture ichidagi
+                        rolini ko‘ramiz.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     ROADMAP
+========================================================= -->
+
+<section
+    id="roadmap"
+    class="section"
+>
+
+    <div class="container">
+
+        <div class="section-label">
+            $ tree ./learning-roadmap
+        </div>
+
+        <h2 class="section-title">
+            Mavzular <span>ketma-ketligi</span>
+        </h2>
+
+
+        <div class="roadmap">
+
+
+            <!-- 01 -->
+
+            <div class="roadmap-item">
+
+                <div class="roadmap-number">
+                    01
+                </div>
+
+                <div class="roadmap-content">
+
+                    <h4>
+                        Python & Backend Foundation
+                    </h4>
+
+                    <p>
+
+                        Python workflow, virtual environment,
+                        package management, Git, project
+                        structure va backend development
+                        fundamentals.
+
+                    </p>
+
+                    <div class="roadmap-tags">
+
+                        <span class="roadmap-tag">Python</span>
+                        <span class="roadmap-tag">venv</span>
+                        <span class="roadmap-tag">pip</span>
+                        <span class="roadmap-tag">Git</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- 02 -->
+
+            <div class="roadmap-item">
+
+                <div class="roadmap-number">
+                    02
+                </div>
+
+                <div class="roadmap-content">
+
+                    <h4>
+                        Django Core
+                    </h4>
+
+                    <p>
+
+                        Django project architecture, apps,
+                        models, migrations, ORM, views,
+                        authentication, permissions,
+                        forms va admin.
+
+                    </p>
+
+                    <div class="roadmap-tags">
+
+                        <span class="roadmap-tag">Django</span>
+                        <span class="roadmap-tag">ORM</span>
+                        <span class="roadmap-tag">Auth</span>
+                        <span class="roadmap-tag">Migrations</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- 03 -->
+
+            <div class="roadmap-item">
+
+                <div class="roadmap-number">
+                    03
+                </div>
+
+                <div class="roadmap-content">
+
+                    <h4>
+                        REST API & DRF
+                    </h4>
+
+                    <p>
+
+                        REST architecture, serializers,
+                        APIView, GenericAPIView, ViewSets,
+                        routers, permissions, pagination,
+                        validation va API testing.
+
+                    </p>
+
+                    <div class="roadmap-tags">
+
+                        <span class="roadmap-tag">DRF</span>
+                        <span class="roadmap-tag">REST</span>
+                        <span class="roadmap-tag">JSON</span>
+                        <span class="roadmap-tag">Postman</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- 04 -->
+
+            <div class="roadmap-item">
+
+                <div class="roadmap-number">
+                    04
+                </div>
+
+                <div class="roadmap-content">
+
+                    <h4>
+                        PostgreSQL & Data Layer
+                    </h4>
+
+                    <p>
+
+                        Relations, indexes, transactions,
+                        migrations, SQL va Django ORM orqali
+                        database bilan professional ishlash.
+
+                    </p>
+
+                    <div class="roadmap-tags">
+
+                        <span class="roadmap-tag">PostgreSQL</span>
+                        <span class="roadmap-tag">SQL</span>
+                        <span class="roadmap-tag">Indexes</span>
+                        <span class="roadmap-tag">Transactions</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- 05 -->
+
+            <div class="roadmap-item">
+
+                <div class="roadmap-number">
+                    05
+                </div>
+
+                <div class="roadmap-content">
+
+                    <h4>
+                        Linux Terminal
+                    </h4>
+
+                    <p>
+
+                        Linux filesystem, permissions, users,
+                        processes, services, SSH, logs,
+                        networking va command-line workflow.
+
+                    </p>
+
+                    <div class="roadmap-tags">
+
+                        <span class="roadmap-tag">Linux</span>
+                        <span class="roadmap-tag">Bash</span>
+                        <span class="roadmap-tag">SSH</span>
+                        <span class="roadmap-tag">systemd</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- 06 -->
+
+            <div class="roadmap-item">
+
+                <div class="roadmap-number">
+                    06
+                </div>
+
+                <div class="roadmap-content">
+
+                    <h4>
+                        Linux Server Administration
+                    </h4>
+
+                    <p>
+
+                        Serverni tayyorlash, user management,
+                        SSH security, firewall, services,
+                        logs, disk, memory, processlar,
+                        networking va server monitoring
+                        asoslari.
+
+                    </p>
+
+                    <div class="roadmap-tags">
+
+                        <span class="roadmap-tag">Ubuntu</span>
+                        <span class="roadmap-tag">SSH</span>
+                        <span class="roadmap-tag">UFW</span>
+                        <span class="roadmap-tag">systemd</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- 07 -->
+
+            <div class="roadmap-item">
+
+                <div class="roadmap-number">
+                    07
+                </div>
+
+                <div class="roadmap-content">
+
+                    <h4>
+                        Application Deployment
+                    </h4>
+
+                    <p>
+
+                        Django application'ni local muhitdan
+                        Linux serverga olib chiqish. Environment
+                        variables, production settings,
+                        application server, static/media va
+                        deployment workflow.
+
+                    </p>
+
+                    <div class="roadmap-tags">
+
+                        <span class="roadmap-tag">Deployment</span>
+                        <span class="roadmap-tag">Gunicorn</span>
+                        <span class="roadmap-tag">Environment</span>
+                        <span class="roadmap-tag">Production</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- 08 -->
+
+            <div class="roadmap-item">
+
+                <div class="roadmap-number">
+                    08
+                </div>
+
+                <div class="roadmap-content">
+
+                    <h4>
+                        Nginx & Caddy
+                    </h4>
+
+                    <p>
+
+                        Reverse proxy, domain routing,
+                        static/media serving, HTTPS,
+                        TLS va Django application oldida
+                        web server ishlatish.
+
+                    </p>
+
+                    <div class="roadmap-tags">
+
+                        <span class="roadmap-tag">Nginx</span>
+                        <span class="roadmap-tag">Caddy</span>
+                        <span class="roadmap-tag">Reverse Proxy</span>
+                        <span class="roadmap-tag">HTTPS</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- 09 -->
+
+            <div class="roadmap-item">
+
+                <div class="roadmap-number">
+                    09
+                </div>
+
+                <div class="roadmap-content">
+
+                    <h4>
+                        Redis, RabbitMQ & Celery
+                    </h4>
+
+                    <p>
+
+                        Background jobs, workers, message
+                        brokers, scheduled tasks va
+                        asynchronous processing architecture.
+
+                    </p>
+
+                    <div class="roadmap-tags">
+
+                        <span class="roadmap-tag">Redis</span>
+                        <span class="roadmap-tag">RabbitMQ</span>
+                        <span class="roadmap-tag">Celery</span>
+                        <span class="roadmap-tag">Workers</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- 10 -->
+
+            <div class="roadmap-item">
+
+                <div class="roadmap-number">
+                    10
+                </div>
+
+                <div class="roadmap-content">
+
+                    <h4>
+                        Docker & Containerization
+                    </h4>
+
+                    <p>
+
+                        Dockerfile, images, containers,
+                        volumes, networks va Docker Compose.
+                        Backend application'ni reproducible
+                        environment ichida ishlatish.
+
+                    </p>
+
+                    <div class="roadmap-tags">
+
+                        <span class="roadmap-tag">Docker</span>
+                        <span class="roadmap-tag">Compose</span>
+                        <span class="roadmap-tag">Images</span>
+                        <span class="roadmap-tag">Networks</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- 11 -->
+
+            <div class="roadmap-item">
+
+                <div class="roadmap-number">
+                    11
+                </div>
+
+                <div class="roadmap-content">
+
+                    <h4>
+                        Kubernetes
+                    </h4>
+
+                    <p>
+
+                        Containerlar ko‘payganda ularni
+                        boshqarish: Pods, Deployments, Services,
+                        ConfigMaps, Secrets, scaling va
+                        orchestration tushunchalari.
+
+                    </p>
+
+                    <div class="roadmap-tags">
+
+                        <span class="roadmap-tag">Kubernetes</span>
+                        <span class="roadmap-tag">Pods</span>
+                        <span class="roadmap-tag">Deployments</span>
+                        <span class="roadmap-tag">Services</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- 12 -->
+
+            <div class="roadmap-item">
+
+                <div class="roadmap-number">
+                    12
+                </div>
+
+                <div class="roadmap-content">
+
+                    <h4>
+                        Event-Driven Architecture — Apache Kafka
+                    </h4>
+
+                    <p>
+
+                        Event-driven systems, producers,
+                        consumers, topics, partitions,
+                        consumer groups va distributed
+                        services o‘rtasidagi event workflow.
+
+                    </p>
+
+                    <div class="roadmap-tags">
+
+                        <span class="roadmap-tag">Apache Kafka</span>
+                        <span class="roadmap-tag">Producer</span>
+                        <span class="roadmap-tag">Consumer</span>
+                        <span class="roadmap-tag">Events</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- 13 -->
+
+            <div class="roadmap-item">
+
+                <div class="roadmap-number">
+                    13
+                </div>
+
+                <div class="roadmap-content">
+
+                    <h4>
+                        CI/CD & Production Workflow
+                    </h4>
+
+                    <p>
+
+                        Git workflow, testing, build,
+                        deployment automation, environment
+                        management va production lifecycle.
+
+                    </p>
+
+                    <div class="roadmap-tags">
+
+                        <span class="roadmap-tag">CI/CD</span>
+                        <span class="roadmap-tag">GitHub</span>
+                        <span class="roadmap-tag">Automation</span>
+                        <span class="roadmap-tag">Deploy</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     LINUX / SERVER / DEPLOYMENT
+========================================================= -->
+
+<section
+    id="linux"
+    class="section section-light"
+>
+
+    <div class="container">
+
+        <div class="section-label">
+            $ sudo ./infrastructure.sh
+        </div>
+
+        <h2 class="section-title">
+            Linux'dan <span>Production Server</span>gacha
+        </h2>
+
+
+        <div class="row g-3">
+
+
+            <div class="col-12 col-md-6 col-lg-4">
+
+                <div class="infra-card">
+
+                    <i class="bi bi-terminal"></i>
+
+                    <span class="infra-number">
+                        01 / LINUX TERMINAL
+                    </span>
+
+                    <h4>
+                        Terminal bilan ishlash
+                    </h4>
+
+                    <p>
+
+                        Linux filesystem, permissions,
+                        processes, services, SSH, logs,
+                        networking va Bash commandlar.
+
+                    </p>
+
+
+                    <div class="terminal-command-list">
+
+                        <div>
+                            <span>$</span>
+                            pwd
+                        </div>
+
+                        <div>
+                            <span>$</span>
+                            ls -la
+                        </div>
+
+                        <div>
+                            <span>$</span>
+                            systemctl status nginx
+                        </div>
+
+                        <div>
+                            <span>$</span>
+                            journalctl -u app
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-12 col-md-6 col-lg-4">
+
+                <div class="infra-card">
+
+                    <i class="bi bi-server"></i>
+
+                    <span class="infra-number">
+                        02 / SERVER ADMINISTRATION
+                    </span>
+
+                    <h4>
+                        Linux server boshqaruvi
+                    </h4>
+
+                    <p>
+
+                        Serverni tayyorlash, SSH,
+                        users, firewall, services,
+                        resource monitoring, logs,
+                        disk va network bilan ishlash.
+
+                    </p>
+
+
+                    <div class="terminal-command-list">
+
+                        <div>
+                            <span>$</span>
+                            ssh user@server
+                        </div>
+
+                        <div>
+                            <span>$</span>
+                            df -h
+                        </div>
+
+                        <div>
+                            <span>$</span>
+                            free -h
+                        </div>
+
+                        <div>
+                            <span>$</span>
+                            ss -tulpn
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-12 col-md-6 col-lg-4">
+
+                <div class="infra-card">
+
+                    <i class="bi bi-rocket-takeoff"></i>
+
+                    <span class="infra-number">
+                        03 / APP DEPLOYMENT
+                    </span>
+
+                    <h4>
+                        Application deployment
+                    </h4>
+
+                    <p>
+
+                        Django application'ni production
+                        serverga olib chiqish, environment
+                        sozlash, application server,
+                        reverse proxy va HTTPS.
+
+                    </p>
+
+
+                    <div class="terminal-command-list">
+
+                        <div>
+                            <span>$</span>
+                            git pull
+                        </div>
+
+                        <div>
+                            <span>$</span>
+                            docker compose up -d
+                        </div>
+
+                        <div>
+                            <span>$</span>
+                            systemctl restart app
+                        </div>
+
+                        <div>
+                            <span>$</span>
+                            curl localhost
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="architecture-line">
+
+            <span class="architecture-node">
+                Developer
+            </span>
+
+            <span class="architecture-arrow">
+                →
+            </span>
+
+            <span class="architecture-node">
+                Git
+            </span>
+
+            <span class="architecture-arrow">
+                →
+            </span>
+
+            <span class="architecture-node">
+                Linux Server
+            </span>
+
+            <span class="architecture-arrow">
+                →
+            </span>
+
+            <span class="architecture-node">
+                Nginx / Caddy
+            </span>
+
+            <span class="architecture-arrow">
+                →
+            </span>
+
+            <span class="architecture-node">
+                Django
+            </span>
+
+            <span class="architecture-arrow">
+                →
+            </span>
+
+            <span class="architecture-node">
+                PostgreSQL
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     TECHNOLOGY STACK
+========================================================= -->
+
+<section
+    id="stack"
+    class="section"
+>
+
+    <div class="container">
+
+        <div class="section-label">
+            $ cat technology-stack.txt
+        </div>
+
+        <h2 class="section-title">
+            Technology <span>Stack</span>
+        </h2>
+
+
+        <!-- BACKEND -->
+
+        <div class="stack-category">
+
+            <div class="stack-category-title">
+
+                <i class="bi bi-code-slash"></i>
+
+                Backend Development
+
+            </div>
+
+
+            <div class="row g-3">
+
+
+                <div class="col-6 col-md-4 col-lg-3">
+
+                    <div class="technology-card">
+
+                        <div class="technology-icon">
+                            <i class="bi bi-filetype-py"></i>
+                        </div>
+
+                        <h5>Python</h5>
+
+                        <p>
+                            Backend programming
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-6 col-md-4 col-lg-3">
+
+                    <div class="technology-card">
+
+                        <div class="technology-icon">
+                            <i class="bi bi-box"></i>
+                        </div>
+
+                        <h5>Django</h5>
+
+                        <p>
+                            Web framework
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-6 col-md-4 col-lg-3">
+
+                    <div class="technology-card">
+
+                        <div class="technology-icon">
+                            <i class="bi bi-braces"></i>
+                        </div>
+
+                        <h5>DRF</h5>
+
+                        <p>
+                            REST API
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-6 col-md-4 col-lg-3">
+
+                    <div class="technology-card">
+
+                        <div class="technology-icon">
+                            <i class="bi bi-git"></i>
+                        </div>
+
+                        <h5>Git</h5>
+
+                        <p>
+                            Version control
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+
+        <div class="stack-category">
+
+            <div class="stack-category-title">
+
+                <i class="bi bi-database"></i>
+
+                Database & Messaging
+
+            </div>
+
+
+            <div class="row g-3">
+
+
+                <div class="col-6 col-md-4 col-lg-3">
+
+                    <div class="technology-card">
+
+                        <div class="technology-icon">
+                            <i class="bi bi-database"></i>
+                        </div>
+
+                        <h5>PostgreSQL</h5>
+
+                        <p>
+                            Relational database
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-6 col-md-4 col-lg-3">
+
+                    <div class="technology-card">
+
+                        <div class="technology-icon">
+                            <i class="bi bi-lightning-charge"></i>
+                        </div>
+
+                        <h5>Redis</h5>
+
+                        <p>
+                            Cache & data store
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-6 col-md-4 col-lg-3">
+
+                    <div class="technology-card">
+
+                        <div class="technology-icon">
+                            <i class="bi bi-diagram-3"></i>
+                        </div>
+
+                        <h5>RabbitMQ</h5>
+
+                        <p>
+                            Message broker
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-6 col-md-4 col-lg-3">
+
+                    <div class="technology-card">
+
+                        <div class="technology-icon">
+                            <i class="bi bi-broadcast-pin"></i>
+                        </div>
+
+                        <h5>Apache Kafka</h5>
+
+                        <p>
+                            Event streaming
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+
+        <div class="stack-category">
+
+            <div class="stack-category-title">
+
+                <i class="bi bi-boxes"></i>
+
+                Containers & Orchestration
+
+            </div>
+
+
+            <div class="row g-3">
+
+
+                <div class="col-6 col-md-4 col-lg-3">
+
+                    <div class="technology-card">
+
+                        <div class="technology-icon">
+                            <i class="bi bi-boxes"></i>
+                        </div>
+
+                        <h5>Docker</h5>
+
+                        <p>
+                            Containerization
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-6 col-md-4 col-lg-3">
+
+                    <div class="technology-card">
+
+                        <div class="technology-icon">
+                            <i class="bi bi-diagram-3"></i>
+                        </div>
+
+                        <h5>Kubernetes</h5>
+
+                        <p>
+                            Container orchestration
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-6 col-md-4 col-lg-3">
+
+                    <div class="technology-card">
+
+                        <div class="technology-icon">
+                            <i class="bi bi-layers"></i>
+                        </div>
+
+                        <h5>Docker Compose</h5>
+
+                        <p>
+                            Multi-container workflow
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-6 col-md-4 col-lg-3">
+
+                    <div class="technology-card">
+
+                        <div class="technology-icon">
+                            <i class="bi bi-cloud"></i>
+                        </div>
+
+                        <h5>Containers</h5>
+
+                        <p>
+                            Reproducible environments
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="stack-category">
+
+            <div class="stack-category-title">
+
+                <i class="bi bi-hdd-network"></i>
+
+                Web Server & Reverse Proxy
+
+            </div>
+
+
+            <div class="row g-3">
+
+
+                <div class="col-6 col-md-4 col-lg-3">
+
+                    <div class="technology-card">
+
+                        <div class="technology-icon">
+                            <i class="bi bi-server"></i>
+                        </div>
+
+                        <h5>Nginx</h5>
+
+                        <p>
+                            Reverse proxy
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-6 col-md-4 col-lg-3">
+
+                    <div class="technology-card">
+
+                        <div class="technology-icon">
+                            <i class="bi bi-shield-check"></i>
+                        </div>
+
+                        <h5>Caddy</h5>
+
+                        <p>
+                            Modern web server
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-6 col-md-4 col-lg-3">
+
+                    <div class="technology-card">
+
+                        <div class="technology-icon">
+                            <i class="bi bi-lock"></i>
+                        </div>
+
+                        <h5>HTTPS / TLS</h5>
+
+                        <p>
+                            Secure delivery
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-6 col-md-4 col-lg-3">
+
+                    <div class="technology-card">
+
+                        <div class="technology-icon">
+                            <i class="bi bi-globe2"></i>
+                        </div>
+
+                        <h5>Domain Routing</h5>
+
+                        <p>
+                            Application exposure
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="stack-category">
+
+            <div class="stack-category-title">
+
+                <i class="bi bi-lightning"></i>
+
+                Async & Event Processing
+
+            </div>
+
+
+            <div class="row g-3">
+
+
+                <div class="col-6 col-md-4 col-lg-3">
+
+                    <div class="technology-card">
+
+                        <div class="technology-icon">
+                            <i class="bi bi-clock-history"></i>
+                        </div>
+
+                        <h5>Celery</h5>
+
+                        <p>
+                            Task queue
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-6 col-md-4 col-lg-3">
+
+                    <div class="technology-card">
+
+                        <div class="technology-icon">
+                            <i class="bi bi-cpu"></i>
+                        </div>
+
+                        <h5>Workers</h5>
+
+                        <p>
+                            Background processing
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-6 col-md-4 col-lg-3">
+
+                    <div class="technology-card">
+
+                        <div class="technology-icon">
+                            <i class="bi bi-calendar-event"></i>
+                        </div>
+
+                        <h5>Scheduled Tasks</h5>
+
+                        <p>
+                            Periodic jobs
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-6 col-md-4 col-lg-3">
+
+                    <div class="technology-card">
+
+                        <div class="technology-icon">
+                            <i class="bi bi-broadcast"></i>
+                        </div>
+
+                        <h5>Event Driven</h5>
+
+                        <p>
+                            Distributed events
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="architecture-line">
+
+            <span class="architecture-node">
+                Client
+            </span>
+
+            <span class="architecture-arrow">
+                →
+            </span>
+
+            <span class="architecture-node">
+                Nginx / Caddy
+            </span>
+
+            <span class="architecture-arrow">
+                →
+            </span>
+
+            <span class="architecture-node">
+                Django
+            </span>
+
+            <span class="architecture-arrow">
+                →
+            </span>
+
+            <span class="architecture-node">
+                PostgreSQL
+            </span>
+
+            <span class="architecture-arrow">
+                +
+            </span>
+
+            <span class="architecture-node">
+                Redis
+            </span>
+
+            <span class="architecture-arrow">
+                →
+            </span>
+
+            <span class="architecture-node">
+                Celery
+            </span>
+
+            <span class="architecture-arrow">
+                →
+            </span>
+
+            <span class="architecture-node">
+                Kafka
+            </span>
+
+            <span class="architecture-arrow">
+                →
+            </span>
+
+            <span class="architecture-node">
+                Kubernetes
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section
+    id="experience"
+    class="section section-light"
+>
+
+    <div class="container">
+
+        <div class="section-label">
+            $ cat professional-experience.md
+        </div>
+
+        <h2 class="section-title">
+            Production muhitidagi
+            <span>DevOps tajribasi</span>
+        </h2>
+
+
+        <div class="row g-3">
+
+
+            <div class="col-12 col-lg-6">
+
+                <div class="experience-card">
+
+                    <div class="company-icon">
+
+                        <i class="bi bi-building"></i>
+
+                    </div>
+
+
+                    <div class="experience-label">
+
+                        Professional Experience
+
+                    </div>
+
+
+                    <h3>
+                        Beeline Uzbekistan
+                    </h3>
+
+
+                    <p>
+
+                        Telekommunikatsiya muhitida DevOps
+                        yo‘nalishida ishlash tajribasi.
+
+                        Bu muhitda infrastructure, deployment
+                        va production servislar bilan ishlash
+                        jarayonlarining amaliy tomonlarini
+                        ko‘rish imkoniyati bo‘lgan.
+
+                    </p>
+
+
+                    <ul class="experience-list">
+
+                        <li>
+                            Production infrastructure bilan ishlash
+                        </li>
+
+                        <li>
+                            Application deployment va operational
+                            workflow
+                        </li>
+
+                        <li>
+                            Servislar va infrastructure bilan bog‘liq
+                            DevOps jarayonlari
+                        </li>
+
+                        <li>
+                            Production muhitida reliability va
+                            operational muammolarni tushunish
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-12 col-lg-6">
+
+                <div class="experience-card">
+
+                    <div class="company-icon">
+
+                        <i class="bi bi-credit-card"></i>
+
+                    </div>
+
+
+                    <div class="experience-label">
+
+                        Professional Experience
+
+                    </div>
+
+
+                    <h3>
+                        Payme
+                    </h3>
+
+
+                    <p>
+
+                        Fintech muhitida DevOps tajribasi.
+
+                        Yuqori ishonchlilik talab qiladigan
+                        servislar, production infrastructure,
+                        deployment va operational jarayonlar
+                        bilan ishlash tajribasi.
+
+                    </p>
+
+
+                    <ul class="experience-list">
+
+                        <li>
+                            Production servislar bilan ishlash
+                        </li>
+
+                        <li>
+                            Infrastructure va deployment workflow
+                        </li>
+
+                        <li>
+                            Service reliability va operational
+                            jarayonlarni tushunish
+                        </li>
+
+                        <li>
+                            DevOps engineering mindset
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+<section
+    id="instructor"
+    class="section"
+>
+
+    <div class="container">
+
+        <div class="section-label">
+            $ whoami
+        </div>
+
+
+        <div class="instructor mt-4">
+
+
+            <div class="instructor-photo">
+
+                <img
+                    src="https://media.axror.tech/media/axror/profile_Oorl551.jpg"
+                    alt="Axrorjon Ibrokhimov"
+                >
+
+            </div>
+
+
+            <div>
+
+                <div class="eyebrow">
+
+                    Instructor /
+                    Backend & DevOps Engineer
+
+                </div>
+
+
+                <h2>
+                    Axrorjon Ibrokhimov
+                </h2>
+
+
+                <div class="instructor-description">
+
+                    <p>
+
+                        Men — Python Backend va DevOps
+                        yo‘nalishida ishlaydigan software engineer.
+
+                        Asosiy yo‘nalishlarim — Django,
+                        Python, REST API, PostgreSQL, Linux,
+                        Docker, Kubernetes, CI/CD va
+                        infrastructure engineering.
+
+                    </p>
+
+
+                    <p>
+
+                        Taxminan <strong>3 yillik amaliy tajriba</strong>
+                        davomida faqat application development
+                        emas, balki application'ni serverga
+                        chiqarish, containerization, networking,
+                        reverse proxy, background processing,
+                        monitoring va self-hosted infrastructure
+                        bilan ham ishlaganman.
+
+                    </p>
+
+
+                    <p>
+
+                        Professional faoliyatim davomida
+                        <strong>Beeline Uzbekistan</strong> va
+                        <strong>Payme</strong> kabi texnologik
+                        muhitlarda DevOps yo‘nalishida tajriba
+                        orttirganman.
+
+                    </p>
+
+
+                    <p>
+
+                        Shuningdek, o‘z infrastructure'larini
+                        mustaqil boshqarish, Docker asosidagi
+                        servislarni yuritish, Linux serverlar,
+                        authentication systems, CI/CD,
+                        monitoring va self-hosted servislar
+                        bilan ishlash tajribasi mavjud.
+
+                    </p>
+
+
+                    <p>
+
+                        Shu sababli kursning asosiy maqsadi
+                        "yana bir tutorial ko‘rdim" darajasida
+                        qolmasdan, <strong>developer sifatida
+                        tizimning butun lifecycle'ini tushunish</strong>:
+
+                        kod → database → server → container →
+                        network → deployment → production.
+
+                    </p>
+
+                </div>
+
+
+                <div class="experience-tags">
+
+                    <span class="experience-tag">
+                        3+ Years Experience
+                    </span>
+
+                    <span class="experience-tag">
+                        Python
+                    </span>
+
+                    <span class="experience-tag">
+                        Django
+                    </span>
+
+                    <span class="experience-tag">
+                        DRF
+                    </span>
+
+                    <span class="experience-tag">
+                        DevOps
+                    </span>
+
+                    <span class="experience-tag">
+                        Linux
+                    </span>
+
+                    <span class="experience-tag">
+                        Docker
+                    </span>
+
+                    <span class="experience-tag">
+                        Kubernetes
+                    </span>
+
+                    <span class="experience-tag">
+                        CI/CD
+                    </span>
+
+                    <span class="experience-tag">
+                        Infrastructure
+                    </span>
+
+                    <span class="experience-tag">
+                        Self-hosted Systems
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<section
+    class="section section-light"
+>
+
+    <div class="container">
+
+        <div class="section-label">
+            $ ls -la ./projects
+        </div>
+
+        <h2 class="section-title">
+            Kurs davomida <span>nimalar quramiz?</span>
+        </h2>
+
+
+        <div class="row g-3">
+
+
+            <div class="col-12 col-md-6 col-lg-4">
+
+                <div class="project-card">
+
+                    <i class="bi bi-cloud-arrow-up project-icon"></i>
+
+                    <span class="project-number">
+                        PROJECT 01
+                    </span>
+
+                    <h4>
+                        Production Django API
+                    </h4>
+
+                    <p>
+
+                        Authentication, REST API,
+                        PostgreSQL va production-ready
+                        backend structure.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-12 col-md-6 col-lg-4">
+
+                <div class="project-card">
+
+                    <i class="bi bi-server project-icon"></i>
+
+                    <span class="project-number">
+                        PROJECT 02
+                    </span>
+
+                    <h4>
+                        Linux Server Deployment
+                    </h4>
+
+                    <p>
+
+                        Django application'ni Linux serverga
+                        olib chiqish, domain, reverse proxy,
+                        HTTPS va service management.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-12 col-md-6 col-lg-4">
+
+                <div class="project-card">
+
+                    <i class="bi bi-boxes project-icon"></i>
+
+                    <span class="project-number">
+                        PROJECT 03
+                    </span>
+
+                    <h4>
+                        Dockerized Backend
+                    </h4>
+
+                    <p>
+
+                        Django, PostgreSQL, Redis va boshqa
+                        servislarni Docker Compose orqali
+                        boshqarish.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-12 col-md-6 col-lg-4">
+
+                <div class="project-card">
+
+                    <i class="bi bi-lightning-charge project-icon"></i>
+
+                    <span class="project-number">
+                        PROJECT 04
+                    </span>
+
+                    <h4>
+                        Async Processing
+                    </h4>
+
+                    <p>
+
+                        Celery, Redis/RabbitMQ va workerlar
+                        yordamida background processing
+                        architecture.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-12 col-md-6 col-lg-4">
+
+                <div class="project-card">
+
+                    <i class="bi bi-broadcast project-icon"></i>
+
+                    <span class="project-number">
+                        PROJECT 05
+                    </span>
+
+                    <h4>
+                        Event-Driven Service
+                    </h4>
+
+                    <p>
+
+                        Apache Kafka yordamida producer,
+                        consumer, topics va event-based
+                        service workflow.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-12 col-md-6 col-lg-4">
+
+                <div class="project-card">
+
+                    <i class="bi bi-diagram-3 project-icon"></i>
+
+                    <span class="project-number">
+                        PROJECT 06
+                    </span>
+
+                    <h4>
+                        Kubernetes Deployment
+                    </h4>
+
+                    <p>
+
+                        Containerized application'ni
+                        Kubernetes environment'da deploy
+                        qilish va service orchestration.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+<section
+    id="faq"
+    class="section"
+>
+
+    <div class="container">
+
+        <div class="section-label">
+            $ ./faq.sh
+        </div>
+
+        <h2 class="section-title">
+            Ko‘p so‘raladigan <span>savollar</span>
+        </h2>
+
+
+        <div class="faq">
+
+
+            <details open>
+
+                <summary>
+                    Bu kurs kimlar uchun?
+                </summary>
+
+                <p>
+
+                    Python va backendga qiziqadigan,
+                    Django o‘rganayotgan yoki backend
+                    bilimlarini DevOps bilan birlashtirmoqchi
+                    bo‘lganlar uchun.
+
+                </p>
+
+            </details>
+
+
+            <details>
+
+                <summary>
+                    Kursning asosiy maqsadi nima?
+                </summary>
+
+                <p>
+
+                    Maqsad — faqat Django kod yozishni emas,
+                    backend application'ning development'dan
+                    production'ga bo‘lgan butun lifecycle'ini
+                    tushuntirish.
+
+                </p>
+
+            </details>
+
+
+            <details>
+
+                <summary>
+                    Linux bilish shartmi?
+                </summary>
+
+                <p>
+
+                    Professional Linux tajribasi shart emas.
+                    Kerakli terminal commandlar, SSH, server
+                    administration va deployment jarayonlari
+                    kurs davomida amaliy o‘rganiladi.
+
+                </p>
+
+            </details>
+
+
+            <details>
+
+                <summary>
+                    Kubernetes juda murakkab emasmi?
+                </summary>
+
+                <p>
+
+                    Kubernetes Docker va container
+                    tushunchalaridan keyin o‘rganiladi.
+                    Shu sababli avval container qanday
+                    ishlashini tushunib, keyin orchestration
+                    masalasiga o‘tiladi.
+
+                </p>
+
+            </details>
+
+
+            <details>
+
+                <summary>
+                    Kafka nima uchun kerak?
+                </summary>
+
+                <p>
+
+                    Apache Kafka event-driven architecture
+                    va distributed systems'ni tushunish uchun
+                    ishlatiladi. Producer, consumer, topic,
+                    partition va consumer group tushunchalari
+                    ko‘rib chiqiladi.
+
+                </p>
+
+            </details>
+
+
+            <details>
+
+                <summary>
+                    Bu kurs faqat nazariyami?
+                </summary>
+
+                <p>
+
+                    Yo‘q. Kursning asosiy yo‘nalishi amaliyot.
+                    Terminal, kod, Docker, server, database,
+                    deployment va architecture bilan ishlanadi.
+
+                </p>
+
+            </details>
+
+
+            <details>
+
+                <summary>
+                    Kursga qanday ro‘yxatdan o‘taman?
+                </summary>
+
+                <p>
+
+                    Registration sahifasi:
+
+                    <br><br>
+
+                    <a
+                        href="https://axror.tech/register-cource"
+                        class="text-success"
+                    >
+                        https://axror.tech/register-cource
+                    </a>
+
+                </p>
+
+            </details>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+<section class="cta">
+
+    <div class="container">
+
+        <div class="cta-box">
+
+            <div class="section-label">
+                $ ./register.sh
+            </div>
+
+
+            <h2>
+
+                Vaqt o‘tkazish uchun emas.
+
+                <br>
+
+                <span>Engineering o‘rganish uchun.</span>
+
+            </h2>
+
+
+            <p>
+
+                Agar siz faqat tutorial ko‘rib chiqishni emas,
+                backend application qanday qurilishi,
+                Linux serverda qanday ishlashi, Docker bilan
+                qanday container qilinishi, Kubernetes orqali
+                qanday boshqarilishi va event-driven
+                architecture qanday ishlashini tushunmoqchi
+                bo‘lsangiz — bu kurs siz uchun.
+
+            </p>
+
+
+            <a
+                href="https://axror.tech/register-cource"
+                class="btn btn-terminal btn-terminal-primary mt-2"
+            >
+
+                Kursga ro‘yxatdan o‘tish
+
+                <i class="bi bi-arrow-right"></i>
+
+            </a>
+
+
+            <div class="registration-status">
+
+                <span class="ok">$</span>
+
+                registration_status:
+
+                <span class="ok">
+                    open
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+</main>
+
+<footer>
+
+    <div class="container">
+
+        <div class="footer-inner">
+
+            <div>
+
+                <span class="online">
+                    ●
+                </span>
+
+                system_status:
+
+                <strong>
+                    active
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                © <span id="year"></span>
+
+                Axrorjon Ibrokhimov
+
+                ·
+
+                DevOps Backend Course
+
+            </div>
+
+
+            <div class="social-links">
+
+                <a
+                    href="https://t.me/axrorback"
+                    target="_blank"
+                    rel="noopener"
+                >
+
+                    <i class="bi bi-telegram"></i>
+
+                </a>
+
+
+                <a
+                    href="https://github.com/axrorback"
+                    target="_blank"
+                    rel="noopener"
+                >
+
+                    <i class="bi bi-github"></i>
+
+                </a>
+
+
+                <a
+                    href="https://axror.tech"
+                    target="_blank"
+                    rel="noopener"
+                >
+
+                    <i class="bi bi-globe2"></i>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</footer>
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+<script>
+
+
+
+    document.getElementById("year").textContent =
+        new Date().getFullYear();
+
+
+
+
+    document
+        .querySelectorAll(".navbar-nav .nav-link")
+        .forEach(function(link) {
+
+            link.addEventListener("click", function() {
+
+                const navigation =
+                    document.getElementById("mainNavigation");
+
+
+                if (
+                    navigation.classList.contains("show")
+                ) {
+
+                    const collapse =
+                        bootstrap.Collapse.getInstance(
+                            navigation
+                        );
+
+
+                    if (collapse) {
+
+                        collapse.hide();
+
+                    }
+
+                }
+
+            });
+
+        });
+
+</script>
+</body>
+</html>
